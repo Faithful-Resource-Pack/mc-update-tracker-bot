@@ -1,0 +1,5 @@
+.env
+.env.example
+data/*
+node_modules/*
+pnpm-lock.yaml

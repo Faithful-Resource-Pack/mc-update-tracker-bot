@@ -1,0 +1,23 @@
+{
+	"name": "mc-update-tracker-bot",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"prettier": "prettier .prettierrc --write ."
+	},
+	"keywords": [],
+	"author": "RobertR11",
+	"license": "GPL-3.0",
+	"dependencies": {
+		"@discordjs/rest": "^1.0.1",
+		"@keyv/sqlite": "^3.5.3",
+		"chalk": "^4.1.2",
+		"discord.js": "^14.2.0",
+		"dotenv": "^16.0.1",
+		"keyv": "^4.3.3"
+	},
+	"devDependencies": {
+		"prettier": "^2.7.1"
+	}
+}

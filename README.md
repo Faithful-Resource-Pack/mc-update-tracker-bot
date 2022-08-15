@@ -12,7 +12,7 @@ Currently not available due to the bot still being tested
 <br>
 
 ## How does it work?
-Various minecraft site API's are from the feedback site, issue tracker and launcher assets are used to track new updates being released and to get article links of those versions.
+Various minecraft site API's from the feedback site, issue tracker and launcher assets are used to track new updates being released and to get article links of those versions.
 
 <br>
 

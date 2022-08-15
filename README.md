@@ -11,6 +11,13 @@ Currently not available due to the bot still being tested
 
 <br>
 
+## Example Screenshots
+![image](https://user-images.githubusercontent.com/57044042/184725570-72930a00-cae4-401f-833a-f989d4ad7d66.png)
+![image](https://user-images.githubusercontent.com/57044042/184725593-795540f4-bf27-4fa9-b831-c366a94a7b96.png)
+
+
+<br>
+
 ## How does it work?
 Various minecraft site API's from the feedback site, issue tracker and launcher assets are used to track new updates being released and to get article links of those versions.
 

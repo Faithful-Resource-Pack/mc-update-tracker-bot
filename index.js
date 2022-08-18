@@ -45,7 +45,7 @@ client.once("ready", async () => {
 	if (!fs.existsSync("./data")) {
 		fs.mkdirSync("./data");
 	}
-	fs.writeFile("./data/data.sqlite", "{}", { flag: "wx" }, function (err) {
+	fs.writeFile("./data/data.sqlite", "", { flag: "wx" }, function (err) {
 		if (err) {
 			return;
 		}

@@ -15,7 +15,8 @@
 		"chalk": "^4.1.2",
 		"discord.js": "^14.2.0",
 		"dotenv": "^16.0.1",
-		"keyv": "^4.3.3"
+		"keyv": "^4.3.3",
+		"moment": "^2.29.4"
 	},
 	"devDependencies": {
 		"prettier": "^2.7.1"

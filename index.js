@@ -9,6 +9,7 @@ const {
 	TextInputBuilder,
 	TextInputStyle,
 	ActionRowBuilder,
+	ActivityType,
 } = require("discord.js");
 const { success } = require("./functions/logger");
 const {
@@ -52,6 +53,7 @@ client.once("ready", async () => {
 	});
 
 	console.log(`${success} ${client.user.tag} is online`);
+	client.user.setActivity('/track-updates', { type: ActivityType.Listening });
 	await loadJiraJavaVersions();
 	await loadJiraBedrockVersions();
 	await loadJavaVersions();

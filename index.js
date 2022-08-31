@@ -27,7 +27,7 @@ const {
 const { sendErrorMessage } = require("./functions/errorHandler");
 require("dotenv").config();
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, "commands");
@@ -175,6 +175,32 @@ client.on("interactionCreate", async (interaction) => {
 		await interaction.message.edit({ embeds: [embed_dev] });
 	} else return;
 });
+
+client.on("messageCreate", async (message) => {
+	if (message.author.bot) return;
+
+	if (message.author.id !== process.env.OWNER_ID) return;
+
+	if (message.content.startsWith("m!eval")) {
+		const clean = async (text) => {
+			if (text && text.constructor.name === "Promise") text = await text;
+			if (typeof text !== "string") text = require("util").inspect(text, { depth: 1 });
+
+			text = text
+				.replaceAll(process.env.TOKEN, "[CENSORED]")
+				.replaceAll(process.env.ERROR_CHANNEL, "[CENSORED]")
+				.replaceAll(process.env.REPORTS_CHANNEL, "[CENSORED]")
+				.replace(/`/g, "`" + String.fromCharCode(8203))
+				.replace(/@/g, "@" + String.fromCharCode(8203));
+
+			return text;
+		};
+
+		const code = message.content.slice(6)
+		const evaluated = await eval(`(async () => { try { return await (async () => {${code.includes('return') ? code : `return ${code}`}})() } catch (e) { return e } })()`);
+		await message.reply({ content: `\`\`\`js\n${(await clean(evaluated)).slice(0, 4085)}\`\`\`` })
+	}
+})
 
 process.on("uncaughtException", async function (error) {
 	await sendErrorMessage(client, error);

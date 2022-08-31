@@ -14,12 +14,12 @@ exports.loadJiraBedrockVersions = async () => {
 		status = res.status;
 		versions = await res.json();
 	} catch (e) {
-		console.log(`${warning} Failed to load Jira Bedrock versions`);
+		console.log(`${warning} Failed to load Jira Bedrock versions\n${e}`);
 		return;
 	}
 
 	if (versions === "" || status !== 200) {
-		console.log(`${warning} Failed to load Jira Bedrock versions`);
+		console.log(`${warning} Failed to load Jira Bedrock versions, status is ${status}`);
 		return;
 	}
 
@@ -45,10 +45,12 @@ exports.updateJiraBedrockVersions = async (client) => {
 		status = res.status;
 		versions = await res.json();
 	} catch (e) {
+		console.log(`${warning} Failed to update Jira Bedrock versions\n${e}`);
 		return;
 	}
 
 	if (versions === "" || status !== 200) {
+		console.log(`${warning} Failed to update Jira Bedrock versions, status is ${status}`);
 		return;
 	}
 

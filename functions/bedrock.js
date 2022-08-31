@@ -14,12 +14,12 @@ exports.loadBedrockVersions = async () => {
 		status = res.status;
 		versions = await res.json();
 	} catch (e) {
-		console.log(`${warning} Failed to load Minecraft Bedrock versions`);
+		console.log(`${warning} Failed to load Minecraft Bedrock versions\n${e}`);
 		return;
 	}
 
 	if (versions === "" || status !== 200) {
-		console.log(`${warning} Failed to load Minecraft Bedrock versions`);
+		console.log(`${warning} Failed to load Minecraft Bedrock versions, status is ${status}`);
 		return;
 	}
 
@@ -45,10 +45,12 @@ exports.updateBedrockVersions = async (client) => {
 		status = res.status;
 		versions = await res.json();
 	} catch (e) {
+		console.log(`${warning} Failed to update Minecraft Bedrock versions\n${e}`);
 		return;
 	}
 
 	if (versions === "" || status !== 200) {
+		console.log(`${warning} Failed to update Minecraft Bedrock versions, status is ${status}`);
 		return;
 	}
 

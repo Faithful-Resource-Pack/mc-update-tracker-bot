@@ -10,6 +10,7 @@ const {
 	TextInputStyle,
 	ActionRowBuilder,
 	ActivityType,
+	PermissionsBitField,
 } = require("discord.js");
 const { success } = require("./functions/logger");
 const {
@@ -65,6 +66,37 @@ client.once("ready", async () => {
 		await updateBedrockVersions(client);
 	}, 60000);
 });
+
+client.on("guildCreate", async (guild) => {
+	const embed = new EmbedBuilder()
+		.setTitle(`Thanks for adding me to ${guild.name}!`)
+		.setDescription("Use the /track-updates command to get started")
+		.setColor("#5865f2")
+		.setThumbnail(client.user.displayAvatarURL())
+		.setTimestamp();
+
+	if (!guild.members.me.permissions.has([PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.EmbedLinks, PermissionsBitField.Flags.AttachFiles, PermissionsBitField.Flags.ReadMessageHistory, PermissionsBitField.Flags.UseExternalEmojis])) {
+		embed
+			.setDescription("You didn't give me enough permissions to work properly on this server, please remove and invite me again")
+			.setColor("#ff6666")
+	}
+
+	if (guild.systemChannel && guild.systemChannel.permissionsFor(guild.members.me).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.EmbedLinks, PermissionsBitField.Flags.ViewChannel]))
+		guild.systemChannel.send({ embeds: [embed] })
+	else {
+		// If the bot doesn't have enough permissions or the system channel doesn't exist, try to DM the server owner
+		try {
+			const guildOwner = await client.users.fetch(guild.ownerId);
+			guildOwner.send({ embeds: [embed] })
+		}
+		catch (e) {
+			// If the server owner has DM's disabled, try to send the welcome message to the first channel it can find
+			// if that fails, then the bot inviter was so stupid that they literally didn't give the bot any permissions
+			const firstChannel = guild.channels.cache.find(channel => channel.type === 'GUILD_TEXT' && channel.permissionsFor(guild.members.me).has([PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.EmbedLinks, PermissionsBitField.Flags.ViewChannel]))
+			if (firstChannel) firstChannel.send({ embeds: [embed] })
+		}
+	}
+})
 
 client.on("interactionCreate", async (interaction) => {
 	if (interaction.isChatInputCommand()) {

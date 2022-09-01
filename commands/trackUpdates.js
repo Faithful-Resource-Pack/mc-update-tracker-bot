@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, PermissionsBitField } = require("discord.js");
 const Keyv = require("keyv");
 
 module.exports = {
@@ -35,6 +35,16 @@ module.exports = {
 		.setDefaultMemberPermissions(0),
 	async execute(interaction, client) {
 		let embed = new EmbedBuilder();
+
+		if (!interaction.guild.members.me.permissions.has([PermissionsBitField.Flags.ViewChannel, PermissionsBitField.Flags.SendMessages, PermissionsBitField.Flags.EmbedLinks, PermissionsBitField.Flags.AttachFiles, PermissionsBitField.Flags.ReadMessageHistory, PermissionsBitField.Flags.UseExternalEmojis])) {
+			embed
+				.setTitle("You didn't give me enough permissions to work properly on this server, please remove and invite me again")
+				.setColor("#ff6666")
+				.setTimestamp();
+
+			await interaction.reply({ embeds: [embed], ephemeral: true });
+			return;
+		}
 
 		// Channel type 0 = text channel
 		// See https://discord-api-types.dev/api/discord-api-types-v10/enum/ChannelType for more

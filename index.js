@@ -55,16 +55,18 @@ client.once("ready", async () => {
 
 	console.log(`${success} ${client.user.tag} is online`);
 	client.user.setActivity('/track-updates', { type: ActivityType.Listening });
-	await loadJiraJavaVersions();
-	await loadJiraBedrockVersions();
-	await loadJavaVersions();
-	await loadBedrockVersions();
-	setInterval(async () => {
-		await updateJiraJavaVersions(client);
-		await updateJiraBedrockVersions(client);
-		await updateJavaVersions(client);
-		await updateBedrockVersions(client);
-	}, 60000);
+	if (process.env.DISABLE_UPDATE_CHECKER.toLowerCase() == "false") {
+		await loadJiraJavaVersions();
+		await loadJiraBedrockVersions();
+		await loadJavaVersions();
+		await loadBedrockVersions();
+		setInterval(async () => {
+			await updateJiraJavaVersions(client);
+			await updateJiraBedrockVersions(client);
+			await updateJavaVersions(client);
+			await updateBedrockVersions(client);
+		}, 60000);
+	}
 });
 
 client.on("guildCreate", async (guild) => {

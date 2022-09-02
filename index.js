@@ -17,10 +17,10 @@ const {
 	loadJiraJavaVersions,
 	updateJiraJavaVersions,
 } = require("./functions/jira-java");
-const {
+/*const {
 	loadJiraBedrockVersions,
 	updateJiraBedrockVersions,
-} = require("./functions/jira-bedrock");
+} = require("./functions/jira-bedrock");*/
 const { loadJavaVersions, updateJavaVersions } = require("./functions/java");
 const {
 	loadBedrockVersions,
@@ -57,12 +57,12 @@ client.once("ready", async () => {
 	client.user.setActivity('/track-updates', { type: ActivityType.Listening });
 	if (process.env.DISABLE_UPDATE_CHECKER.toLowerCase() == "false") {
 		await loadJiraJavaVersions();
-		await loadJiraBedrockVersions();
+		//await loadJiraBedrockVersions();
 		await loadJavaVersions();
 		await loadBedrockVersions();
 		setInterval(async () => {
 			await updateJiraJavaVersions(client);
-			await updateJiraBedrockVersions(client);
+			//await updateJiraBedrockVersions(client);
 			await updateJavaVersions(client);
 			await updateBedrockVersions(client);
 		}, 60000);

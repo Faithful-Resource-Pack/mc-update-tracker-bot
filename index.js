@@ -63,9 +63,11 @@ client.once("ready", async () => {
 		setInterval(async () => {
 			await updateJiraJavaVersions(client);
 			//await updateJiraBedrockVersions(client);
-			await updateJavaVersions(client);
 			await updateBedrockVersions(client);
 		}, 60000);
+		setInterval(async () => {
+			await updateJavaVersions(client);
+		}, 120000);
 	}
 });
 

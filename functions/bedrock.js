@@ -126,11 +126,16 @@ exports.updateBedrockVersions = async (client) => {
 
 			for await (const [key, value] of keyv.iterator()) {
 				if (value.edition !== "java") {
-					await client.channels.cache.get(key).send({
-						content: description,
-					});
+					try {
+						await client.channels.cache.get(key).send({
+							content: description,
+						});
+					}
+					catch(e) {}
 				}
 			}
+
+			console.log(`${info} A new version of Minecraft Bedrock was just released: ${version.name}`)
 		}
 	});
 };

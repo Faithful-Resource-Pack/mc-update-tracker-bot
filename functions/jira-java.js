@@ -25,7 +25,7 @@ exports.loadJiraJavaVersions = async () => {
 
 	versions.forEach((version) => {
 		// uncomment to test for specific versions being released
-		// if (version.name === "1.19.2") return;
+		// if (version.name === "22w42a") return;
 		jiraJavaVersionsCache.push(version.name);
 	});
 
@@ -62,11 +62,16 @@ exports.updateJiraJavaVersions = async (client) => {
 
 				for await (const [key, value] of keyv.iterator()) {
 					if (value.edition !== "bedrock") {
-						await client.channels.cache.get(key).send({
-							content: `A new Minecraft Java version has been added to the Minecraft issue tracker: \`${version.name}\``,
-						});
+						try {
+							await client.channels.cache.get(key).send({
+								content: `A new Minecraft Java version has been added to the Minecraft issue tracker: \`${version.name}\``,
+							});
+						}
+						catch(e) {}
 					}
 				}
+
+				console.log(`${info} A new Minecraft Java version has been added to the Minecraft issue tracker: ${version.name}`)
 			}
 		}
 	});

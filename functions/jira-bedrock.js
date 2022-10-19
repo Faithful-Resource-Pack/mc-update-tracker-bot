@@ -62,11 +62,16 @@ exports.updateJiraBedrockVersions = async (client) => {
 
 				for await (const [key, value] of keyv.iterator()) {
 					if (value.edition !== "java") {
-						await client.channels.cache.get(key).send({
-							content: `A new Minecraft Bedrock version has been added to the Minecraft issue tracker: \`${version.name}\``,
-						});
+						try {
+							await client.channels.cache.get(key).send({
+								content: `A new Minecraft Bedrock version has been added to the Minecraft issue tracker: \`${version.name}\``,
+							});
+						}
+						catch(e) {}
 					}
 				}
+
+				console.log(`${info} A new Minecraft Bedrock version has been added to the Minecraft issue tracker: ${version.name}`)
 			}
 		}
 	});

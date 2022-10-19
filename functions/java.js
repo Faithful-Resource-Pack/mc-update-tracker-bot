@@ -25,7 +25,7 @@ exports.loadJavaVersions = async () => {
 
 	versions.versions.forEach((version) => {
 		// uncomment to test for specific versions being released
-		// if (version.id === "1.19.2") return;
+		// if (version.id === "22w42a") return;
 		javaVersionsCache.push(version.id);
 	});
 
@@ -56,8 +56,7 @@ exports.updateJavaVersions = async (client) => {
 
 	versions.versions.forEach(async (version) => {
 		if (!javaVersionsCache.includes(version.id)) {
-			javaVersionsCache.push(version.id);
-			let description = `A new version of Minecraft Java was just released: \`${version.id}\`\n\`No article link was found.\``;
+			let description;
 
 			const res = await fetch(
 				"https://www.minecraft.net/content/minecraft-net/_jcr_content.articles.grid?tileselection=auto&tagsPath=minecraft:article/news,minecraft:stockholm/news,minecraft:stockholm/minecraft-build&pageSize=30&locale=en-us&lang=/content/minecraft-net/language-masters/en-us",
@@ -75,6 +74,7 @@ exports.updateJavaVersions = async (client) => {
 
 			for (let i = 0; i != articles.article_grid.length; i++) {
 				if (
+					// what the fuck am I looking at, eslint
 					articles.article_grid[
 						i
 					].default_tile.image.imageURL.includes(version.id) &&
@@ -112,14 +112,25 @@ exports.updateJavaVersions = async (client) => {
 				}
 			}
 
-			const keyv = new Keyv("sqlite://data/data.sqlite");
+			if (description == undefined) {
+				console.log(`${info} Skipped posting of Java ${version.id} because no article link was yet found`)
+				return;
+			}
+			else {
+				javaVersionsCache.push(version.id);
+				const keyv = new Keyv("sqlite://data/data.sqlite");
 
-			for await (const [key, value] of keyv.iterator()) {
-				if (value.edition !== "bedrock") {
-					await client.channels.cache.get(key).send({
-						content: description,
-					});
+				for await (const [key, value] of keyv.iterator()) {
+					if (value.edition !== "bedrock") {
+						try {
+							await client.channels.cache.get(key).send({
+								content: description,
+							});
+						}
+						catch(e) {}
+					}
 				}
+				console.log(`${info} A new version of Minecraft Java was just released: ${version.id}`)
 			}
 		}
 	});

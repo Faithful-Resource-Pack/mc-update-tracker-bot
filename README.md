@@ -1,13 +1,16 @@
+## This bot is no longer being maintained or updated.
+
+Methods of scraping update data have become progressively more difficult, and it's no longer worth it to find every possible solution when much better options exist now.
+
+The #news webhook on the [Mojira Discord server](https://discord.gg/rpCyfKV) has both relevant links and a small message footprint, which should work for most cases.
+
+---
+
 <img src="https://cdn.discordapp.com/avatars/1006537692047220828/c89a88d23112238d97abcf0dc89e8e9f.png?size=128" alt="Bot image" align="right">
 <div align="center">
   <h1>Minecraft Update Tracker Bot</h1>
   <h3>tracks Minecraft Java and Bedrock edition updates on Discord servers</h3>
 </div>
-
-<br>
-
-## Invite
-Currently not available due to the bot still being tested
 
 <br>
 
@@ -19,7 +22,7 @@ Currently not available due to the bot still being tested
 <br>
 
 ## How does it work?
-Various minecraft site API's from the feedback site, issue tracker and launcher assets are used to track new updates being released and to get article links of those versions.
+Various minecraft site APIs from the feedback site, issue tracker and launcher assets are used to track new updates being released and to get article links of those versions.
 
 <br>
 
@@ -44,4 +47,4 @@ node .
 
 <br><br>
 
-If anyone offers to rewrite this in typescript, no, just no.
+If anyone offers to rewrite this in TypeScript, no, just no.
